@@ -63,6 +63,7 @@ function renderBooks(books) {
     <tr>
       <td>${book.title}</td>
       <td>${book.author}</td>
+      <td>${book.isRead}</td>
       <td>
         <button type="button" class="delete-book" data-id="${book.id}">Delete</button>
         <button type="button" class="mark-read" data-id="${book.id}">Mark as Read</button>
@@ -74,11 +75,10 @@ function renderBooks(books) {
   }
 }
 
-// Client side removeBook
+// Client side to delete a book
 
 function deleteBookHandler() {
   deleteBook($(this).data("id"));
-  console.log('here');
 }
 
 function deleteBook(bookId) {
@@ -95,7 +95,7 @@ function deleteBook(bookId) {
   });
 }
 
-
+// Client side to mark a book as read
 
 function markAsReadHandler() {
     markAsRead($(this).data("id"));
@@ -104,7 +104,7 @@ function markAsReadHandler() {
 function markAsRead(bookId) {
   $.ajax({
       method: "PUT",
-      url: `/musicLibrary/${bookId}`,
+      url: `/books/${bookId}`,
       data: {
           read: true 
       }
