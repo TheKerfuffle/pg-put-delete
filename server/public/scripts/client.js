@@ -2,8 +2,8 @@ $(document).ready(function(){
   console.log('jQuery sourced.');
 
   // click handlers
-  $('#bookshelf').on('click', '.delete-book', removeBook);
-  $('#bookshelf').on('click', '.mark-read', markAsRead);
+  $('#bookShelf').on('click', '.delete-book', deleteBookHandler);
+  $('#bookShelf').on('click', '.mark-read', markAsReadHandler);
 
   refreshBooks();
   addClickHandlers();
@@ -69,16 +69,49 @@ function renderBooks(books) {
       </td>
     </tr>
   `);
-  newRow.data('id', book.id)
+    newRow.data('id', book.id)
     $('#bookShelf').append(newRow);
   }
 }
 
+// Client side removeBook
 
-function removeBook() {
-  
+function deleteBookHandler() {
+  deleteBook($(this).data("id"));
+  console.log('here');
 }
 
-function markAsRead() {
-  
+function deleteBook(bookId) {
+  $.ajax({
+      method: 'DELETE',
+      url: `/books/${bookId}`
+  })
+  .then( response => {
+      console.log('deleted');
+      refreshBooks();
+  })
+  .catch(error => {
+      alert(`Error on delete`);
+  });
+}
+
+
+
+function markAsReadHandler() {
+    markAsRead($(this).data("id"));
+}
+
+function markAsRead(bookId) {
+  $.ajax({
+      method: "PUT",
+      url: `/musicLibrary/${bookId}`,
+      data: {
+          read: true 
+      }
+  }).then(response =>{
+    refreshBooks();
+  }).catch(err =>{
+      console.log('Error on markAsRead', err);
+      
+  })
 }
