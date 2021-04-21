@@ -1,5 +1,10 @@
 $(document).ready(function(){
   console.log('jQuery sourced.');
+
+  // click handlers
+  $('#bookshelf').on('click', '.delete-book', removeBook);
+  $('#bookshelf').on('click', '.mark-read', markAsRead);
+
   refreshBooks();
   addClickHandlers();
 });
@@ -54,11 +59,26 @@ function renderBooks(books) {
   for(let i = 0; i < books.length; i += 1) {
     let book = books[i];
     // For each book, append a new row to our table
-    $('#bookShelf').append(`
-      <tr>
-        <td>${book.title}</td>
-        <td>${book.author}</td>
-      </tr>
-    `);
+    let newRow = $(`
+    <tr>
+      <td>${book.title}</td>
+      <td>${book.author}</td>
+      <td>
+        <button type="button" class="delete-book" data-id="${book.id}">Delete</button>
+        <button type="button" class="mark-read" data-id="${book.id}">Mark as Read</button>
+      </td>
+    </tr>
+  `);
+  newRow.data('id', book.id)
+    $('#bookShelf').append(newRow);
   }
+}
+
+
+function removeBook() {
+  
+}
+
+function markAsRead() {
+  
 }
